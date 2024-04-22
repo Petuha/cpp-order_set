@@ -363,3 +363,8 @@ MigrationBackup/
 FodyWeavers.xsd
 
 *.sln
+*.vcxproj
+*.vcxproj.filters
+*.config
+Sample-Test-RedBlackTree/pch.cpp
+Sample-Test-RedBlackTree/pch.h
