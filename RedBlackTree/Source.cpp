@@ -7,7 +7,6 @@ int main() {
 	RedBlackTree<int> rbt = { 8, 18, 5, 15, 25, 40, 17, 80 };
 	rbt.erase(18);
 	int c, x, i;
-	cout << "XDXDXD\n";
 	while (1) {
 		cout << "1 - insert\n2 - erase\n3 - find by order\n4 - order of key\n5 - exit\n";
 		for (auto& now : rbt) cout << setw(2) << now << ' ';
