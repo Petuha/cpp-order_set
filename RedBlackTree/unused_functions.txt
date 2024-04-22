@@ -1,0 +1,41 @@
+#include <iostream>
+#include <fstream>
+void phelp(RedBlack::Node<T>* p, std::ofstream& fout) {
+	fout << '"' << p->data << '"' << ' ';
+	if (p->color == 1) fout << "[style=filled,color=red];";
+	fout << '\n';
+	if (p->left != TNULL) {
+		fout << '"' << p->data << '"' << " -> " << '"' << p->left->data << '"' << '\n';
+		phelp(p->left, fout);
+	}
+	if (p->right != TNULL) {
+		fout << '"' << p->data << '"' << " -> " << '"' << p->right->data << '"' << '\n';
+		phelp(p->right, fout);
+	}
+}
+void print_to_ostream() {
+	std::ofstream fout("1.txt");
+	fout << "digraph G {\n";
+	phelp(root, fout);
+	fout << "}";
+	fout.close();
+}
+bool check_cnt() {
+	return check(root);
+}
+size_t get_els(RedBlack::Node<T>* p) {
+	if (p == TNULL) return 0;
+	return get_els(p->left) + get_els(p->right) + 1;
+}
+bool check(RedBlack::Node<T>* p) {
+	if (p == TNULL) return 1;
+	if (get_els(p->left) != p->cnt) return 0;
+	return check(p->right);
+}
+//RedBlack::Node<T>* node;
+/*y = RedBlack::find_min(z->right, TNULL);
+node = y;
+while (node->parent != z) {
+	if (node == node->parent->left) node->parent->cnt--;
+	node = node->parent;
+}*/
