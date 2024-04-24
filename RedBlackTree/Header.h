@@ -484,10 +484,10 @@ public:
 		if (z == TNULL) return end();
 		return RedBlackIterator<T>(z, TNULL, root);
 	}
-	RedBlackIterator<T> lower_bound(const T& key) {
+	RedBlackIterator<T> lower_bound(const T& key) const {
 		return RedBlackIterator<T>(RedBlack::find_lower_bound<T, CMP>(root, TNULL, key), TNULL, root);
 	}
-	RedBlackIterator<T> upper_bound(const T& key) {
+	RedBlackIterator<T> upper_bound(const T& key) const {
 		return RedBlackIterator<T>(RedBlack::find_upper_bound<T, CMP>(root, TNULL, key), TNULL, root);
 	}
 	RedBlackIterator<T> find_by_order(size_t i) const {
