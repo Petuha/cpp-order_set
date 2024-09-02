@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../RedBlackTree/Header.h"
+#include "../RedBlackTree/RedBlackTree.h"
 #include <string>
 #include <sstream>
 #include <set>
@@ -618,4 +618,14 @@ TEST(TestIterator, 4) {
 			EXPECT_EQ(arr[i], *rb.find_by_order(i));
 		}
 	}
+}
+
+TEST(TestIterator, 5) {
+	MemoryLeakDetector meamleak;
+	RedBlackTree<int> rb = { 1, 2, 3, 4, 5, 6 };
+	RedBlackTree<int>::const_iterator it = rb.begin();
+	for (int i = 0; i < 6; i++) ++it;
+	EXPECT_EQ(it, rb.end());
+	EXPECT_ANY_THROW(it++);
+	EXPECT_ANY_THROW(++it);
 }

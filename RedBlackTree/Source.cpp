@@ -1,7 +1,8 @@
-#include "Header.h"
+#include "RedBlackTree.h"
 #include <iostream>
 #include <functional>
 #include <iomanip>
+#include <vector>
 using namespace std;
 int main() {
 	RedBlackTree<int> rbt = { 8, 18, 5, 15, 25, 40, 17, 80 };
