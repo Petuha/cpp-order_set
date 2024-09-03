@@ -17,6 +17,10 @@ inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_max()
 template<class T, class CMP>
 inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_next()
 {
+	if (!ptr) {
+		throw std::runtime_error("Increment null iterator");
+		return;
+	}
 	if (ptr->right != TNULL) {
 		ptr = ptr->right;
 		find_min();
@@ -106,7 +110,7 @@ inline const T& RedBlackTree<T, CMP>::ConstRedBlackIterator::operator*() const
 template<class T, class CMP>
 inline class RedBlackTree<T, CMP>::ConstRedBlackIterator& RedBlackTree<T, CMP>::ConstRedBlackIterator::operator++() {
 	if (ptr == TNULL) {
-		throw std::runtime_error("Can't increment null iterator");
+		throw std::runtime_error("Increment null iterator");
 		return *this;
 	}
 	find_next();
@@ -114,9 +118,9 @@ inline class RedBlackTree<T, CMP>::ConstRedBlackIterator& RedBlackTree<T, CMP>::
 }
 
 template<class T, class CMP>
-inline class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::ConstRedBlackIterator::operator++(int) {
+inline const class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::ConstRedBlackIterator::operator++(int) {
 	if (ptr == TNULL) {
-		throw std::runtime_error("Can't increment null iterator");
+		throw std::runtime_error("Increment null iterator");
 		return *this;
 	}
 	ConstRedBlackIterator res(*this);
@@ -126,17 +130,22 @@ inline class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::C
 
 template<class T, class CMP>
 inline class RedBlackTree<T, CMP>::ConstRedBlackIterator& RedBlackTree<T, CMP>::ConstRedBlackIterator::operator--() {
+	Node* prev_ptr = ptr;
 	if (ptr == nullptr) {
 		ptr = root;
 		find_max();
 		return *this;
 	}
 	find_prev();
+	if (!ptr) {
+		ptr = prev_ptr;
+		throw std::runtime_error("Decrement begin iterator");
+	}
 	return *this;
 }
 
 template<class T, class CMP>
-inline class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::ConstRedBlackIterator::operator--(int)
+inline const class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::ConstRedBlackIterator::operator--(int)
 {
 	ConstRedBlackIterator res(*this);
 	if (ptr == nullptr) {
@@ -145,6 +154,10 @@ inline class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::C
 		return res;
 	}
 	find_prev();
+	if (!ptr) {
+		ptr = res.ptr;
+		throw std::runtime_error("Decrement begin iterator");
+	}
 	return res;
 }
 

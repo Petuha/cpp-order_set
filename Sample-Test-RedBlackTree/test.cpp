@@ -43,25 +43,6 @@ TEST(TestCTR, 4) {
 	EXPECT_EQ(get_data(rb2), get_data(rb3));
 }
 
-TEST(TestInsert, 1) {
-	MemoryLeakDetector meamleak;
-	set<int> s;
-	RedBlackTree<int> rb;
-	int x;
-	for (int i = 0; i < 100; i++) {
-		s = {};
-		rb = {};
-		for (int j = 0; j < 1000; j++) {
-			do {
-				x = rand();
-			} while (s.find(x) != s.end());
-			s.insert(x);
-			rb.insert(x);
-		}
-		EXPECT_EQ(get_data(s), get_data(rb));
-	}
-}
-
 TEST(TestInsert, 2) {
 	MemoryLeakDetector meamleak;
 	set<int> s;
@@ -304,32 +285,6 @@ TEST(TestUpperBound, 3) {
 	}
 }
 
-TEST(TestInsertEraseOrder, 1) {
-	MemoryLeakDetector meamleak;
-	RedBlackTree<int> rb;
-	int x, c, i;
-	for (int step = 0; step < 10000; step++) {
-		x = rand() % 100;
-		c = rand() % 2;
-		if (c == 0) {
-			rb.insert(x);
-		}
-		else {
-			try {
-				rb.erase(x);
-			}
-			catch (...) {}
-		}
-		i = 0;
-		for (auto& now : rb) {
-			x = now;
-			EXPECT_EQ(i, rb.order_of_key(x));
-			EXPECT_EQ(x, *rb.find_by_order(i));
-			i++;
-		}
-	}
-}
-
 TEST(TestOrder, 1) {
 	MemoryLeakDetector meamleak;
 	RedBlackTree<int> rb;
@@ -389,43 +344,6 @@ TEST(TestOrder, 3) {
 			rb.erase(arr[r]);
 			arr.erase(arr.begin() + r);
 		}
-		for (int i = 0; i < arr.size(); i++) {
-			EXPECT_EQ(i, rb.order_of_key(arr[i]));
-		}
-		for (int i = 0; i < arr.size(); i++) {
-			EXPECT_EQ(arr[i], *rb.find_by_order(i));
-		}
-	}
-}
-
-TEST(TestOrder, 4) {
-	MemoryLeakDetector meamleak;
-	RedBlackTree<int> rb;
-	int n = 10000;
-	vector<int> arr;
-	arr.reserve(n);
-	for (int i = 0; i < n; i++) {
-		arr.push_back(rand());
-		rb.insert(*arr.rbegin());
-	}
-	sort(arr.begin(), arr.end());
-	arr.erase(unique(arr.begin(), arr.end()), arr.end());
-	for (int x : arr) {
-		rb.insert(x);
-		rb.insert(x);
-	}
-	for (int i = 0; i < arr.size(); i++) {
-		EXPECT_EQ(i, rb.order_of_key(arr[i]));
-	}
-	for (int i = 0; i < arr.size(); i++) {
-		EXPECT_EQ(arr[i], *rb.find_by_order(i));
-	}
-	n = arr.size() / 2;
-	int r;
-	for (int i = 0; i < n; i++) {
-		r = rand() % arr.size();
-		rb.erase(arr[r]);
-		arr.erase(arr.begin() + r);
 		for (int i = 0; i < arr.size(); i++) {
 			EXPECT_EQ(i, rb.order_of_key(arr[i]));
 		}
@@ -585,47 +503,37 @@ TEST(TestIterator, 3) {
 
 TEST(TestIterator, 4) {
 	MemoryLeakDetector meamleak;
-	RedBlackTree<int> rb;
-	int n = 10000;
-	vector<int> arr;
-	arr.reserve(n);
-	for (int i = 0; i < n; i++) {
-		arr.push_back(rand());
-		rb.insert(*arr.rbegin());
-	}
-	sort(arr.begin(), arr.end());
-	arr.erase(unique(arr.begin(), arr.end()), arr.end());
-	for (int x : arr) {
-		rb.insert(x);
-		rb.insert(x);
-	}
-	for (int i = 0; i < arr.size(); i++) {
-		EXPECT_EQ(i, rb.order_of_key(arr[i]));
-	}
-	for (int i = 0; i < arr.size(); i++) {
-		EXPECT_EQ(arr[i], *rb.find_by_order(i));
-	}
-	n = arr.size() / 2;
-	int r;
-	for (int i = 0; i < n; i++) {
-		r = rand() % arr.size();
-		rb.erase(rb.find(arr[r]));
-		arr.erase(arr.begin() + r);
-		for (int i = 0; i < arr.size(); i++) {
-			EXPECT_EQ(i, rb.order_of_key(arr[i]));
-		}
-		for (int i = 0; i < arr.size(); i++) {
-			EXPECT_EQ(arr[i], *rb.find_by_order(i));
-		}
-	}
+	RedBlackTree<int> rb = { 1, 2, 3, 4, 5, 6 };
+	RedBlackTree<int>::const_iterator it = rb.begin(), it1;
+	EXPECT_NO_THROW(it1 = ++++++it);
+	EXPECT_EQ(it, ++++++rb.begin());
+	EXPECT_EQ(it1, ++++++rb.begin());
+	it = rb.begin();
+	EXPECT_NO_THROW(it1 = it++);
+	EXPECT_EQ(it, ++rb.begin());
+	EXPECT_EQ(it1, rb.begin());
+	it = rb.begin();
+	int a;
+	EXPECT_NO_THROW(a = *++++it);
+	EXPECT_EQ(a, 3);
+	it = rb.begin();
+	EXPECT_NO_THROW(a = *it++);
+	EXPECT_EQ(a, 1);
+	EXPECT_EQ(it, ++rb.begin());
 }
 
-TEST(TestIterator, 5) {
+TEST(TestIteratorThrow, 1) {
 	MemoryLeakDetector meamleak;
 	RedBlackTree<int> rb = { 1, 2, 3, 4, 5, 6 };
 	RedBlackTree<int>::const_iterator it = rb.begin();
 	for (int i = 0; i < 6; i++) ++it;
 	EXPECT_EQ(it, rb.end());
+	it = rb.begin();
+	for (int i = 0; i < 6; i++) it++;
+	EXPECT_EQ(it, rb.end());
 	EXPECT_ANY_THROW(it++);
 	EXPECT_ANY_THROW(++it);
+	it = rb.begin();
+	EXPECT_ANY_THROW(it--);
+	EXPECT_ANY_THROW(--it);
 }

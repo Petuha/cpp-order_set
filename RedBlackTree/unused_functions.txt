@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-void phelp(RedBlack::Node<T>* p, std::ofstream& fout) {
+void phelp(Node* p, std::ofstream& fout) {
 	fout << '"' << p->data << '"' << ' ';
 	if (p->color == 1) fout << "[style=filled,color=red];";
 	fout << '\n';

@@ -5,12 +5,15 @@
 #include <vector>
 using namespace std;
 int main() {
-	RedBlackTree<int> rbt = { 8, 18, 5, 15, 25, 40, 17, 80 };
-	rbt.erase(18);
+	RedBlackTree<int, less_equal<int>> rbt = { 8, 18, 5, 15, 25, 40, 17, 80 };
+	rbt = { 5,  8, 15, 17, 25, 40, 80 };
+	//rbt.erase(18);
 	int c, x, i;
 	while (1) {
 		cout << "1 - insert\n2 - erase\n3 - find by order\n4 - order of key\n5 - exit\n";
 		for (auto& now : rbt) cout << setw(2) << now << ' ';
+		cout << '\n';
+		for (auto& now : rbt) cout << setw(2) << rbt.order_of_key(now) << ' ';
 		cout << '\n';
 		for (int i = 0; i < rbt.size(); i++) cout << setw(2) << i << ' ';
 		cout << '\n';
@@ -32,6 +35,7 @@ int main() {
 			cout << rbt.order_of_key(x) << '\n';
 		}
 		else if (c == 5) break;
+		else rbt.print_to_ostream();
 	}
 	return 0;
 }

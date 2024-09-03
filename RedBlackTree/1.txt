@@ -1,0 +1,19 @@
+digraph G {
+"17" 
+"17" -> "8"
+"8" [style=filled,color=red];
+"8" -> "5"
+"5" 
+"8" -> "15"
+"15" 
+"17" -> "40"
+"40" [style=filled,color=red];
+"40" -> "25"
+"25" 
+"40" -> "80"
+"80" 
+"80" -> "80"
+"80" [style=filled,color=red];
+"80" -> "80"
+"80" [style=filled,color=red];
+}
