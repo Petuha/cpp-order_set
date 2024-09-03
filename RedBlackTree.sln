@@ -7,10 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RedBlackTree", "RedBlackTre
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample-Test-RedBlackTree", "Sample-Test-RedBlackTree\Sample-Test-RedBlackTree.vcxproj", "{6153D6C8-1804-44EC-B466-0B4E1B0FBA6C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample-Test-Iterator", "Sample-Test-Iterator\Sample-Test-Iterator.vcxproj", "{B6B54C01-251F-4F3E-85E0-1BA40E5130B0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{217B8B6B-0047-429D-B86D-0A8F4AE6518B} = {217B8B6B-0047-429D-B86D-0A8F4AE6518B}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample-Test-Heavy", "Sample-Test-Iterator\Sample-Test-Iterator.vcxproj", "{B6B54C01-251F-4F3E-85E0-1BA40E5130B0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InteractiveMenu", "InteractiveMenu\InteractiveMenu.vcxproj", "{EC4A3748-B9E4-434D-843C-1EF54588BF97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +43,14 @@ Global
 		{B6B54C01-251F-4F3E-85E0-1BA40E5130B0}.Release|x64.Build.0 = Release|x64
 		{B6B54C01-251F-4F3E-85E0-1BA40E5130B0}.Release|x86.ActiveCfg = Release|Win32
 		{B6B54C01-251F-4F3E-85E0-1BA40E5130B0}.Release|x86.Build.0 = Release|Win32
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Debug|x64.ActiveCfg = Debug|x64
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Debug|x64.Build.0 = Debug|x64
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Debug|x86.ActiveCfg = Debug|Win32
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Debug|x86.Build.0 = Debug|Win32
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Release|x64.ActiveCfg = Release|x64
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Release|x64.Build.0 = Release|x64
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Release|x86.ActiveCfg = Release|Win32
+		{EC4A3748-B9E4-434D-843C-1EF54588BF97}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

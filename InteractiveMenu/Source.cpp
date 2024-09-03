@@ -1,13 +1,11 @@
-#include "RedBlackTree.h"
+#include "../RedBlackTree/RedBlackTree.h"
 #include <iostream>
 #include <functional>
 #include <iomanip>
 #include <vector>
 using namespace std;
 int main() {
-	RedBlackTree<int, less_equal<int>> rbt = { 8, 18, 5, 15, 25, 40, 17, 80 };
-	rbt = { 5,  8, 15, 17, 25, 40, 80 };
-	//rbt.erase(18);
+	RedBlackTree<int> rbt = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	int c, x, i;
 	while (1) {
 		cout << "1 - insert\n2 - erase\n3 - find by order\n4 - order of key\n5 - exit\n";
@@ -35,7 +33,6 @@ int main() {
 			cout << rbt.order_of_key(x) << '\n';
 		}
 		else if (c == 5) break;
-		else rbt.print_to_ostream();
 	}
 	return 0;
 }

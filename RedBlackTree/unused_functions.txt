@@ -1,22 +1,28 @@
 #include <iostream>
 #include <fstream>
-void phelp(Node* p, std::ofstream& fout) {
-	fout << '"' << p->data << '"' << ' ';
-	if (p->color == 1) fout << "[style=filled,color=red];";
-	fout << '\n';
+#include <format>
+void phelp(Node* p, int i, std::ofstream& fout) {
+	if (p->color == 1) fout << std::format("{} [label={},style=filled,color=red];\n", i, p->data);
+	else fout << std::format("{} [label={}];\n", i, p->data);
+	fout << std::format("{}->{}\n", i, 2 * i + 1);
 	if (p->left != TNULL) {
-		fout << '"' << p->data << '"' << " -> " << '"' << p->left->data << '"' << '\n';
-		phelp(p->left, fout);
+		phelp(p->left, 2 * i + 1, fout);
 	}
+	else {
+		fout << std::format("{} [label={},style=filled,color=white];\n", 2 * i + 1, "\"\"");
+	}
+	fout << std::format("{}->{}\n", i, 2 * i + 2);
 	if (p->right != TNULL) {
-		fout << '"' << p->data << '"' << " -> " << '"' << p->right->data << '"' << '\n';
-		phelp(p->right, fout);
+		phelp(p->right, 2 * i + 2, fout);
+	}
+	else {
+		fout << std::format("{} [label={},style=filled,color=white];\n", 2 * i + 2, "\"\"");
 	}
 }
 void print_to_ostream() {
 	std::ofstream fout("1.txt");
 	fout << "digraph G {\n";
-	phelp(root, fout);
+	phelp(root, 0, fout);
 	fout << "}";
 	fout.close();
 }

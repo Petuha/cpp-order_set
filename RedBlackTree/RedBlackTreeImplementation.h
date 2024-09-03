@@ -242,7 +242,7 @@ inline RedBlackTree<T, CMP>::RedBlackTree(const RedBlackTree<T, CMP>& rhs) : Red
 }
 
 template<class T, class CMP>
-inline RedBlackTree<T, CMP>::RedBlackTree(RedBlackTree<T, CMP>&& rhs)
+inline RedBlackTree<T, CMP>::RedBlackTree(RedBlackTree<T, CMP>&& rhs) noexcept
 {
 	TNULL = rhs.TNULL;
 	root = rhs.root;
@@ -459,6 +459,32 @@ inline size_t RedBlackTree<T, CMP>::order_of_key(const T& x) const
 	if (p == TNULL) return elements;
 	i += p->cnt;
 	return i;
+}
+
+template<class T, class CMP>
+inline bool RedBlackTree<T, CMP>::operator==(const RedBlackTree<T, CMP>& rhs) const
+{
+	if (elements != rhs.elements) return 0;
+	auto it1 = begin(), it2 = rhs.begin();
+	while (it1 != end()) {
+		if (*it1 != *it2) return 0;
+		it1++;
+		it2++;
+	}
+	return 1;
+}
+
+template<class T, class CMP>
+inline bool RedBlackTree<T, CMP>::operator!=(const RedBlackTree<T, CMP>& rhs) const
+{
+	if (elements != rhs.elements) return 1;
+	auto it1 = begin(), it2 = rhs.begin();
+	while (it1 != end()) {
+		if (*it1 != *it2) return 1;
+		it1++;
+		it2++;
+	}
+	return 0;
 }
 
 template<class T, class CMP>
