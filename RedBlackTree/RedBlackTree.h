@@ -1,7 +1,6 @@
 #pragma once
 #include <functional>
 #include <initializer_list>
-#include <stdexcept>
 
 template<class T, class CMP = std::less<T>>
 class RedBlackTree {
@@ -16,7 +15,7 @@ private:
 		size_t cnt; // elements in the left sub-tree
 	};
 	//Iterator
-	class ConstRedBlackIterator { //унаследоваться, добавить удовлетворение требованиям random access iterator
+	class ConstRedBlackIterator { //унаследоваться, добавить удовлетворение требованиям biderectional iterator
 	private:
 		Node* ptr;
 		Node* TNULL;
@@ -27,17 +26,16 @@ private:
 		void find_max();
 		void find_next();
 		void find_prev();
-		void find_lower_bound(const T& key);
-		void find_upper_bound(const T& key);
 	public:
 		ConstRedBlackIterator(Node* ptr = 0, Node* TNULL = 0, Node* root = 0);
 		bool operator== (const ConstRedBlackIterator& rhs) const;
 		bool operator!= (const ConstRedBlackIterator& rhs) const;
-		const T& operator*() const;
+		const T& operator* () const;
 		ConstRedBlackIterator& operator++ ();
 		const ConstRedBlackIterator operator++ (int);
 		ConstRedBlackIterator& operator-- ();
 		const ConstRedBlackIterator operator-- (int);
+		size_t order();
 	};
 	//Tree
 	Node* root;
@@ -70,6 +68,7 @@ public:
 	const_iterator upper_bound(const T& key) const;
 	const_iterator find_by_order(size_t i) const;
 	size_t order_of_key(const T& x) const;
+	size_t order_of_key(const const_iterator& x) const;
 	bool operator==(const RedBlackTree<T, CMP>& rhs) const;
 	bool operator!=(const RedBlackTree<T, CMP>& rhs) const;
 	~RedBlackTree();

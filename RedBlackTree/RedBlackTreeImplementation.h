@@ -326,10 +326,7 @@ inline void RedBlackTree<T, CMP>::insert(const T& key)
 template<class T, class CMP>
 inline void RedBlackTree<T, CMP>::erase(const T& key)
 {
-	if (elements == 0) {
-		throw std::runtime_error("No elements to erase");
-		return;
-	}
+	if (elements == 0) return;
 	elements--;
 	Node* node = this->root;
 	Node* z = TNULL;
@@ -353,7 +350,6 @@ inline void RedBlackTree<T, CMP>::erase(const T& key)
 			if (y == y->parent->left) y->parent->cnt++;
 			y = y->parent;
 		};
-		throw std::runtime_error("Couldn't find key in the tree");
 		return;
 	}
 	erase_helper(z);
@@ -362,10 +358,7 @@ inline void RedBlackTree<T, CMP>::erase(const T& key)
 template<class T, class CMP>
 inline void RedBlackTree<T, CMP>::erase(const_iterator it)
 {
-	if (it.ptr == nullptr) {
-		throw std::runtime_error("Invalid const_iterator");
-		return;
-	}
+	if (it.ptr == nullptr || it.ptr == TNULL) return;
 	elements--;
 	Node* p = it.ptr;
 	p->cnt--;
@@ -414,17 +407,33 @@ inline class RedBlackTree<T, CMP>::const_iterator RedBlackTree<T, CMP>::find(con
 template<class T, class CMP>
 inline class RedBlackTree<T, CMP>::const_iterator RedBlackTree<T, CMP>::lower_bound(const T& key) const
 {
-	const_iterator it(root, TNULL, root);
-	it.find_lower_bound(key);
-	return it;
+	Node* p = root;
+	Node* y = nullptr;
+	while (p != TNULL) {
+		if (CMP{}(p->data, key)) p = p->right;
+		else {
+			if (y == nullptr) y = p;
+			else y = (CMP{}(p->data, y->data) ? p : y);
+			p = p->left;
+		}
+	}
+	return const_iterator(y, TNULL, root);
 }
 
 template<class T, class CMP>
 inline class RedBlackTree<T, CMP>::const_iterator RedBlackTree<T, CMP>::upper_bound(const T& key) const
 {
-	const_iterator it(root, TNULL, root);
-	it.find_upper_bound(key);
-	return it;
+	Node* p = root;
+	Node* y = nullptr;
+	while (p != TNULL) {
+		if (!CMP{}(key, p->data)) p = p->right;
+		else {
+			if (y == nullptr) y = p;
+			else y = (!CMP{}(y->data, p->data) ? p : y);
+			p = p->left;
+		}
+	}
+	return const_iterator (y, TNULL, root);
 }
 
 template<class T, class CMP>
@@ -432,7 +441,7 @@ inline class RedBlackTree<T, CMP>::const_iterator RedBlackTree<T, CMP>::find_by_
 {
 	if (i >= elements) return end();
 	Node* p = this->root;
-	while (p->cnt != i) {
+	while (p != TNULL && p->cnt != i) {
 		if (p->cnt < i) {
 			i -= p->cnt + 1;
 			p = p->right;
@@ -459,6 +468,12 @@ inline size_t RedBlackTree<T, CMP>::order_of_key(const T& x) const
 	if (p == TNULL) return elements;
 	i += p->cnt;
 	return i;
+}
+
+template<class T, class CMP>
+inline size_t RedBlackTree<T, CMP>::order_of_key(const const_iterator& it) const
+{
+	return it.order();
 }
 
 template<class T, class CMP>

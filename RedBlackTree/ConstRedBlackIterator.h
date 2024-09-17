@@ -17,10 +17,7 @@ inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_max()
 template<class T, class CMP>
 inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_next()
 {
-	if (!ptr) {
-		throw std::runtime_error("Increment null iterator");
-		return;
-	}
+	if (ptr == nullptr || ptr == TNULL) return;
 	if (ptr->right != TNULL) {
 		ptr = ptr->right;
 		find_min();
@@ -46,38 +43,6 @@ inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_prev()
 	while (y != nullptr && ptr == y->left) {
 		ptr = y;
 		y = y->parent;
-	}
-	ptr = y;
-}
-
-template<class T, class CMP>
-inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_lower_bound(const T& key)
-{
-	Node* p = root;
-	Node* y = nullptr;
-	while (p != TNULL) {
-		if (CMP{}(p->data, key)) p = p->right;
-		else {
-			if (y == nullptr) y = p;
-			else y = (CMP{}(p->data, y->data) ? p : y);
-			p = p->left;
-		}
-	}
-	ptr = y;
-}
-
-template<class T, class CMP>
-inline void RedBlackTree<T, CMP>::ConstRedBlackIterator::find_upper_bound(const T& key)
-{
-	Node* p = root;
-	Node* y = nullptr;
-	while (p != TNULL) {
-		if (!CMP{}(key, p->data)) p = p->right;
-		else {
-			if (y == nullptr) y = p;
-			else y = (!CMP{}(y->data, p->data) ? p : y);
-			p = p->left;
-		}
 	}
 	ptr = y;
 }
@@ -109,20 +74,13 @@ inline const T& RedBlackTree<T, CMP>::ConstRedBlackIterator::operator*() const
 
 template<class T, class CMP>
 inline class RedBlackTree<T, CMP>::ConstRedBlackIterator& RedBlackTree<T, CMP>::ConstRedBlackIterator::operator++() {
-	if (ptr == TNULL) {
-		throw std::runtime_error("Increment null iterator");
-		return *this;
-	}
+	if (ptr == nullptr || ptr == TNULL) return *this;
 	find_next();
 	return *this;
 }
 
 template<class T, class CMP>
 inline const class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, CMP>::ConstRedBlackIterator::operator++(int) {
-	if (ptr == TNULL) {
-		throw std::runtime_error("Increment null iterator");
-		return *this;
-	}
 	ConstRedBlackIterator res(*this);
 	find_next();
 	return res;
@@ -137,10 +95,7 @@ inline class RedBlackTree<T, CMP>::ConstRedBlackIterator& RedBlackTree<T, CMP>::
 		return *this;
 	}
 	find_prev();
-	if (!ptr) {
-		ptr = prev_ptr;
-		throw std::runtime_error("Decrement begin iterator");
-	}
+	if (!ptr) ptr = prev_ptr;
 	return *this;
 }
 
@@ -154,10 +109,6 @@ inline const class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, C
 		return res;
 	}
 	find_prev();
-	if (!ptr) {
-		ptr = res.ptr;
-		throw std::runtime_error("Decrement begin iterator");
-	}
+	if (!ptr) ptr = res.ptr;
 	return res;
 }
-
