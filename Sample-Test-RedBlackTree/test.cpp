@@ -751,3 +751,22 @@ TEST(TestIteratorOutOfRange, 1) {
 	EXPECT_NO_THROW(it--);
 	EXPECT_NO_THROW(--it);
 }
+
+TEST(TestIteratorOrderMethod, 1) {
+	MemoryLeakDetector meamleak;
+	RedBlackTree<int> rb;
+	int n = 100;
+	vector<int> arr;
+	arr.reserve(n);
+	for (int i = 0; i < n; i++) {
+		arr.push_back(rand());
+	}
+	sort(arr.begin(), arr.end());
+	arr.erase(unique(arr.begin(), arr.end()), arr.end());
+	for (int x : arr) rb.insert(x);
+	auto it = rb.begin();
+	for (int i = 0; i < arr.size(); i++, ++it) {
+		EXPECT_EQ(i, it.order());
+	}
+	EXPECT_EQ(arr.size(), it.order());
+}

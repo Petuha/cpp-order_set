@@ -15,7 +15,7 @@ private:
 		size_t cnt; // elements in the left sub-tree
 	};
 	//Iterator
-	class ConstRedBlackIterator { //унаследоваться, добавить удовлетворение требованиям biderectional iterator
+	class ConstRedBlackIterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 	private:
 		Node* ptr;
 		Node* TNULL;

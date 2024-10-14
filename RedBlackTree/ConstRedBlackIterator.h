@@ -112,3 +112,25 @@ inline const class RedBlackTree<T, CMP>::ConstRedBlackIterator RedBlackTree<T, C
 	if (!ptr) ptr = res.ptr;
 	return res;
 }
+
+template<class T, class CMP>
+inline size_t RedBlackTree<T, CMP>::ConstRedBlackIterator::order()
+{
+	Node* p = ptr;
+	size_t i = 0;
+	if (!p) {
+		p = root;
+		while (p != TNULL) {
+			i += p->cnt + 1;
+			p = p->right;
+		}
+	}
+	else {
+		i = p->cnt;
+		while (p != root) {
+			if (p->parent->right == p) i += p->parent->cnt + 1;
+			p = p->parent;
+		}
+	}
+	return i;
+}
